@@ -1,14 +1,14 @@
 import React from 'react';
 import Table from './components/Table';
 import './App.css';
-import FetchAPI from './components/FetchAPI';
+import StarWarsProvider from './context/StarWarsProvider';
 
 function App() {
   return (
     // o table recebe as infos do FetchAPI
-    <FetchAPI>
+    <StarWarsProvider>
       <Table />
-    </FetchAPI>
+    </StarWarsProvider>
   );
 }
 
