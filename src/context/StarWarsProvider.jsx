@@ -51,10 +51,9 @@ export default function StarWarsProvider({ children }) {
   const filtering = () => {
     // variável que recebe a cópia do retorno da API
     let copyPlanets = copyDataFiltered;
-    console.log(comparisionValue);
-    console.log(columnValue);
-    console.log(inputValue);
-    console.log(copyDataFiltered);
+    // console.log(comparisionValue);
+    // console.log(inputValue);
+    // console.log(copyDataFiltered);
     // bracket notation - dot notation
     // se columnValue for igual a population, então planet[columnValue] é como se fosse planet.population ()
     // verificar se o valor dessa clave (no caso population) é maior que o inputValue
@@ -68,6 +67,8 @@ export default function StarWarsProvider({ children }) {
       copyPlanets = copyPlanets
         .filter((planet) => Number(planet[columnValue]) === Number(inputValue));
     }
+    console.log(columnValue);
+    console.log(selectedFilter);
 
     setCopyDataFiltered(copyPlanets);
     setColumnValue('population');

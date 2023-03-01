@@ -6,7 +6,6 @@ export default function Filters() {
     selectedFilter,
     setSearchByName,
     setSelectedFilter,
-    valueFilters,
     setColumnValue,
     setInputValue,
     setComparisionValue,
@@ -33,7 +32,8 @@ export default function Filters() {
           e.target.value,
         ) }
       >
-        <option value="population">population</option>
+        { !selectedFilter.includes('population')
+        && <option value="population">population</option>}
         <option value="orbital_period">orbital_period</option>
         <option value="diameter">diameter</option>
         <option value="rotation_period">rotation_period</option>
@@ -68,7 +68,9 @@ export default function Filters() {
           // os filtros selecionados (column, comparision, value)
           // + o valor dos filtros (typeFilters)
           // seta os valores
-          setSelectedFilter([...selectedFilter, valueFilters]);
+          setSelectedFilter(
+            [...selectedFilter, columnValue, comparisionValue, inputValue],
+          );
         } }
       >
         Adicionar
