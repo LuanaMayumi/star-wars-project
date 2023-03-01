@@ -15,7 +15,12 @@ export default function TableBody() {
             <tr
               key={ item.name }
             >
-              <td>{item.name}</td>
+              <td
+                data-testid="planet-name"
+              >
+                {item.name}
+
+              </td>
               <td>{item.rotation_period}</td>
               <td>{item.orbital_period}</td>
               <td>{item.diameter}</td>

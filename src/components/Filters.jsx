@@ -17,6 +17,7 @@ export default function Filters() {
 
   return (
     <div>
+      <h1>Star Wars Project</h1>
       <input
         data-testid="name-filter"
         type="text"
