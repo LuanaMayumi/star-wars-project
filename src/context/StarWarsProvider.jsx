@@ -48,33 +48,29 @@ export default function StarWarsProvider({ children }) {
 
   // FILTROS
 
-  const filtering = () => {
-    // variável que recebe a cópia do retorno da API
-    let copyPlanets = copyDataFiltered;
-    // console.log(comparisionValue);
-    // console.log(inputValue);
-    // console.log(copyDataFiltered);
-    // bracket notation - dot notation
-    // se columnValue for igual a population, então planet[columnValue] é como se fosse planet.population ()
-    // verificar se o valor dessa clave (no caso population) é maior que o inputValue
-    if (comparisionValue === 'maior que') {
-      copyPlanets = copyPlanets
-        .filter((planet) => Number(planet[columnValue]) > Number(inputValue));
-    } else if (comparisionValue === 'menor que') {
-      copyPlanets = copyPlanets
-        .filter((planet) => Number(planet[columnValue]) < Number(inputValue));
-    } else {
-      copyPlanets = copyPlanets
-        .filter((planet) => Number(planet[columnValue]) === Number(inputValue));
-    }
-    console.log(columnValue);
-    console.log(selectedFilter);
-
+  useEffect(() => {
+    console.log(copyDataFiltered, 'filtrou os planetas');
+    let copyPlanets = [...dataFiltered];
+    copyPlanets = copyPlanets
+      .filter((planet) => selectedFilter.every((filter) => {
+        // bracket notation - dot notation
+        // em cada planeta (tatooine)
+        // o every verifica se o tatooine atende as condições
+        if (filter.comparision === 'maior que') {
+          // pega a coluna que eu escolho (filter.column)
+          // se for maior, o every retorna TRUE
+          // o filter recebe o true e entende que é pra manter o planeta
+          // o filter fica com os planetas que deram true e coloca na variavel copyPlanets
+          return Number(planet[filter.column]) > Number(filter.value);
+        } if (filter.comparision === 'menor que') {
+          return Number(planet[filter.column]) < Number(filter.value);
+        }
+        return Number(planet[filter.column]) === Number(filter.value);
+      }));
     setCopyDataFiltered(copyPlanets);
-    setColumnValue('population');
     setComparisionValue('maior que');
     setInputValue(0);
-  };
+  }, [selectedFilter]);
 
   const context = {
     dataFiltered,
@@ -89,7 +85,6 @@ export default function StarWarsProvider({ children }) {
     setComparisionValue,
     setSearchByName,
     setSelectedFilter,
-    filtering,
   };
 
   return (

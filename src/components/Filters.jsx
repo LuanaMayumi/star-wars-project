@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 export default function Filters() {
@@ -11,8 +11,28 @@ export default function Filters() {
     setComparisionValue,
     columnValue,
     comparisionValue,
-    inputValue,
-    filtering } = useContext(StarWarsContext);
+    inputValue } = useContext(StarWarsContext);
+
+  const [optionsPossible, setOptionsPossible] = useState([]);
+
+  useEffect(() => {
+    const options = ['population',
+      'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    // pego o array de options totais, verifico em cada option se no selectedFilter tem algum filtro igual valor do filtro selecionado
+    // nego o selected filter, pq se a option for igual ao filter column, retorna true e eu preciso de false pra excluir
+    const filteredOptions = options.filter((option) => !selectedFilter
+      .some((filter) => option === filter.column));
+    setOptionsPossible(filteredOptions);
+    setColumnValue(filteredOptions[0]);
+    // toda vez que eu seleciono uma opção de filtro,
+    // eu refaço o array de options
+  }, [selectedFilter, setColumnValue]);
+
+  const onClickButtonRemove = (nameColumn) => {
+    setOptionsPossible([...optionsPossible, nameColumn]);
+
+    setSelectedFilter(selectedFilter.filter((filter) => filter.column !== nameColumn));
+  };
 
   return (
     <div>
@@ -32,12 +52,16 @@ export default function Filters() {
           e.target.value,
         ) }
       >
-        { !selectedFilter.includes('population')
-        && <option value="population">population</option>}
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {optionsPossible.map((option) => (
+          <option
+            key={ option }
+            value={ option }
+          >
+            {option}
+
+          </option>
+
+        ))}
       </select>
 
       <select
@@ -63,17 +87,45 @@ export default function Filters() {
         type="button"
         data-testid="button-filter"
         onClick={ () => {
-          filtering();
           // clico no botão, guarda nos estados:
           // os filtros selecionados (column, comparision, value)
           // + o valor dos filtros (typeFilters)
           // seta os valores
           setSelectedFilter(
-            [...selectedFilter, columnValue, comparisionValue, inputValue],
+            [...selectedFilter,
+              { column: columnValue, comparision: comparisionValue, value: inputValue }],
           );
         } }
       >
         Adicionar
+      </button>
+
+      {selectedFilter.map((filter, index) => (
+        <div
+          data-testid="filter"
+          key={ index }
+        >
+          <span>
+            {filter.column}
+            {' '}
+            {filter.comparision}
+            {' '}
+            {filter.value}
+          </span>
+          <button
+            type="button"
+            onClick={ () => onClickButtonRemove(filter.column) }
+          >
+            Excluir
+          </button>
+        </div>
+      ))}
+      <button
+        data-testid="button-remove-filters"
+        onClick={ () => setSelectedFilter([]) }
+      >
+        Remover todas filtragens
+
       </button>
     </div>
   );
