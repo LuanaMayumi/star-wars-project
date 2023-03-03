@@ -34,6 +34,10 @@ export default function Filters() {
     setSelectedFilter(selectedFilter.filter((filter) => filter.column !== nameColumn));
   };
 
+  const orderColumns = () => {
+    setOptionsPossible()
+  }
+
   return (
     <div>
       <h1>Star Wars Project</h1>
@@ -82,6 +86,32 @@ export default function Filters() {
         value={ inputValue }
         onChange={ (e) => setInputValue(e.target.value) }
       />
+
+      <input
+        type="radio"
+        name="radio"
+        value="ascendente"
+        id="ascendente"
+        onClick={ () => orderColumns() }
+      />
+      <label
+        htmlFor="ascendente"
+      >
+        Ascendente
+      </label>
+      <input
+        type="radio"
+        name="radio"
+        value="descendente"
+        id="descendente"
+        onClick={ () => console.log('radio desc') }
+      />
+      <label
+        htmlFor="descendente"
+      >
+        Descendente
+
+      </label>
 
       <button
         type="button"

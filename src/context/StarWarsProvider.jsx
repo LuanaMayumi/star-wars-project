@@ -17,6 +17,12 @@ export default function StarWarsProvider({ children }) {
   const [comparisionValue, setComparisionValue] = useState('maior que');
   const [inputValue, setInputValue] = useState(0);
 
+  // estado criado pra ordenar as opções do columm
+  const [order, setOrder] = useState({
+    column: 'population',
+    sort: 'ASC',
+  });
+
   useEffect(() => {
     const fetchAPI = async () => {
       const response = await fetch('https://swapi.dev/api/planets');
@@ -71,6 +77,10 @@ export default function StarWarsProvider({ children }) {
     setComparisionValue('maior que');
     setInputValue(0);
   }, [selectedFilter, dataFiltered]);
+
+  useEffect(() => {
+    copyDataFiltered.sort(() => {});
+  }, []);
 
   const context = {
     dataFiltered,

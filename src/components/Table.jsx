@@ -1,12 +1,22 @@
 import React from 'react';
 import Filters from './Filters';
 import TableBody from './TableBody';
+import logo from '../assets/Logo.svg';
 
 export default function Table() {
   return (
-    <div>
+    <>
+      <div
+        className="logo"
+      >
+        <img
+          src={ logo }
+          alt="logo"
+        />
+      </div>
       <Filters />
       <TableBody />
-    </div>
+
+    </>
   );
 }
