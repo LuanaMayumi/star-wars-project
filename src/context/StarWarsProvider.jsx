@@ -49,7 +49,7 @@ export default function StarWarsProvider({ children }) {
   // FILTROS
 
   useEffect(() => {
-    console.log(copyDataFiltered, 'filtrou os planetas');
+    // console.log(copyDataFiltered, 'filtrou os planetas');
     let copyPlanets = [...dataFiltered];
     copyPlanets = copyPlanets
       .filter((planet) => selectedFilter.every((filter) => {
@@ -70,7 +70,7 @@ export default function StarWarsProvider({ children }) {
     setCopyDataFiltered(copyPlanets);
     setComparisionValue('maior que');
     setInputValue(0);
-  }, [selectedFilter]);
+  }, [selectedFilter, dataFiltered]);
 
   const context = {
     dataFiltered,
