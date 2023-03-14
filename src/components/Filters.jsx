@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { MdOutlineDelete } from 'react-icons/md';
 import StarWarsContext from '../context/StarWarsContext';
+import search from '../assets/Search.svg';
 
 export default function Filters() {
   const { searchByName,
@@ -11,6 +13,8 @@ export default function Filters() {
     setComparisionValue,
     columnValue,
     comparisionValue,
+    order,
+    setOrder,
     inputValue } = useContext(StarWarsContext);
 
   const [optionsPossible, setOptionsPossible] = useState([]);
@@ -34,129 +38,174 @@ export default function Filters() {
     setSelectedFilter(selectedFilter.filter((filter) => filter.column !== nameColumn));
   };
 
-  const orderColumns = () => {
-    setOptionsPossible()
-  }
-
   return (
     <div>
-      <h1>Star Wars Project</h1>
-      <input
-        data-testid="name-filter"
-        type="text"
-        placeholder="Digite o nome do planeta"
-        value={ searchByName }
-        name="search"
-        onChange={ (event) => setSearchByName(event.target.value) }
-      />
-      <select
-        data-testid="column-filter"
-        value={ columnValue }
-        onChange={ (e) => setColumnValue(
-          e.target.value,
-        ) }
+      <div
+        className="containerSearchName"
       >
-        {optionsPossible.map((option) => (
-          <option
-            key={ option }
-            value={ option }
+        <input
+          className="inputSearchName"
+          data-testid="name-filter"
+          type="text"
+          placeholder="Digite o nome do planeta"
+          value={ searchByName }
+          name="search"
+          onChange={ (event) => setSearchByName(event.target.value) }
+        />
+        <img
+          src={ search }
+          alt="search"
+        />
+      </div>
+      <div
+        className="containerInputsOptions"
+      >
+        <label>
+          <p>Coluna</p>
+          <select
+            data-testid="column-filter"
+            value={ columnValue }
+            onChange={ (e) => setColumnValue(
+              e.target.value,
+            ) }
           >
-            {option}
-
-          </option>
-
-        ))}
-      </select>
-
-      <select
-        data-testid="comparison-filter"
-        value={ comparisionValue }
-        onChange={ (e) => setComparisionValue(e.target.value) }
-      >
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
-      </select>
-
-      <input
-        type="number"
-        data-testid="value-filter"
-        placeholder="Digite o numero"
-        name="filterValue"
-        value={ inputValue }
-        onChange={ (e) => setInputValue(e.target.value) }
-      />
-
-      <input
-        type="radio"
-        name="radio"
-        value="ascendente"
-        id="ascendente"
-        onClick={ () => orderColumns() }
-      />
-      <label
-        htmlFor="ascendente"
-      >
-        Ascendente
-      </label>
-      <input
-        type="radio"
-        name="radio"
-        value="descendente"
-        id="descendente"
-        onClick={ () => console.log('radio desc') }
-      />
-      <label
-        htmlFor="descendente"
-      >
-        Descendente
-
-      </label>
-
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ () => {
+            {optionsPossible.map((option) => (
+              <option
+                key={ option }
+                value={ option }
+              >
+                {option}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <p>Operador</p>
+          <select
+            data-testid="comparison-filter"
+            value={ comparisionValue }
+            onChange={ (e) => setComparisionValue(e.target.value) }
+          >
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
+          </select>
+        </label>
+        <input
+          type="number"
+          data-testid="value-filter"
+          placeholder="Digite o numero"
+          name="filterValue"
+          value={ inputValue }
+          onChange={ (e) => setInputValue(e.target.value) }
+        />
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ () => {
           // clico no botão, guarda nos estados:
           // os filtros selecionados (column, comparision, value)
           // + o valor dos filtros (typeFilters)
           // seta os valores
-          setSelectedFilter(
-            [...selectedFilter,
-              { column: columnValue, comparision: comparisionValue, value: inputValue }],
-          );
-        } }
-      >
-        Adicionar
-      </button>
-
-      {selectedFilter.map((filter, index) => (
-        <div
-          data-testid="filter"
-          key={ index }
+            setSelectedFilter(
+              [...selectedFilter,
+                { column: columnValue,
+                  comparision: comparisionValue,
+                  value: inputValue }],
+            );
+          } }
         >
-          <span>
-            {filter.column}
-            {' '}
-            {filter.comparision}
-            {' '}
-            {filter.value}
-          </span>
-          <button
-            type="button"
-            onClick={ () => onClickButtonRemove(filter.column) }
+          Filtrar
+        </button>
+        <button
+          data-testid="button-remove-filters"
+          onClick={ () => setSelectedFilter([]) }
+        >
+          Remover todas filtragens
+        </button>
+        <div
+          className="inputRadio"
+        >
+          <label
+            htmlFor="ascendente"
           >
-            Excluir
-          </button>
+            <input
+              type="radio"
+              name="radio"
+              value="ascendente"
+              id="ascendente"
+              onClick={ () => {
+                setOrder({ ...order, sort: 'ASC' });
+              } }
+            />
+            Ascendente
+          </label>
+          <label htmlFor="descendente">
+            <input
+              type="radio"
+              name="radio"
+              value="descendente"
+              id="descendente"
+              onClick={ () => {
+                setOrder({ ...order, sort: 'DESC' });
+              } }
+            />
+            Descendente
+          </label>
         </div>
-      ))}
-      <button
-        data-testid="button-remove-filters"
-        onClick={ () => setSelectedFilter([]) }
-      >
-        Remover todas filtragens
-
-      </button>
+        {selectedFilter.map((filter, index) => (
+          <div
+            data-testid="filter"
+            key={ index }
+          >
+            <button
+              type="button"
+              onClick={ () => onClickButtonRemove(filter.column) }
+            >
+              <MdOutlineDelete />
+            </button>
+          </div>
+        ))}
+      </div>
+      <div className="filtersApplied">
+        {selectedFilter.length === 0
+          ? (
+            <p className="titleFilterApplied">
+              Nenhum filtro aplicado
+              {' '}
+            </p>)
+          : (
+            <div>
+              <p className="titleFilterApplied">
+                Filtros aplicados:
+                {' '}
+              </p>
+              {selectedFilter.map((filter, index) => (
+                <div key={ index }>
+                  <div className="filterAndButton">
+                    <span>
+                      {filter.column}
+                      {' '}
+                      {filter.comparision}
+                      {' '}
+                      {filter.value}
+                    </span>
+                    <button
+                      className="buttonExcluir"
+                      type="button"
+                      onClick={ () => onClickButtonRemove(filter.column) }
+                    >
+                      <MdOutlineDelete
+                        size={ 20 }
+                        className="iconTrash"
+                      />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+      </div>
     </div>
   );
 }

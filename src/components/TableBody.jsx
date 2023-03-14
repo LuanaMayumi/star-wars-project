@@ -3,15 +3,18 @@ import StarWarsContext from '../context/StarWarsContext';
 import TableHead from './TableHead';
 
 export default function TableBody() {
-  const { copyDataFiltered } = useContext(StarWarsContext);
+  const {
+    copyDataFiltered,
+  } = useContext(StarWarsContext);
 
   return (
-    <div>
+    <div
+      className="resultsTable"
+    >
       <table>
         <TableHead />
         <tbody>
           {copyDataFiltered.map((item) => (
-          // {dataFiltered.map((item) => (
             <tr
               key={ item.name }
             >

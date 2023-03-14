@@ -55,7 +55,6 @@ export default function StarWarsProvider({ children }) {
   // FILTROS
 
   useEffect(() => {
-    // console.log(copyDataFiltered, 'filtrou os planetas');
     let copyPlanets = [...dataFiltered];
     copyPlanets = copyPlanets
       .filter((planet) => selectedFilter.every((filter) => {
@@ -79,8 +78,16 @@ export default function StarWarsProvider({ children }) {
   }, [selectedFilter, dataFiltered]);
 
   useEffect(() => {
-    copyDataFiltered.sort(() => {});
-  }, []);
+    // desestrutura o estado Order
+    const { column, sort } = order;
+    const sorted = copyDataFiltered.sort((planetA, planetB) => {
+      if (sort === 'ASC') {
+        return Number(planetA[column]) - Number(planetB[column]);
+      }
+      return Number(planetB[column]) - Number(planetA[column]);
+    });
+    setDataFiltered(sorted);
+  }, [order]);
 
   const context = {
     dataFiltered,
@@ -90,11 +97,13 @@ export default function StarWarsProvider({ children }) {
     columnValue,
     comparisionValue,
     inputValue,
+    order,
     setColumnValue,
     setInputValue,
     setComparisionValue,
     setSearchByName,
     setSelectedFilter,
+    setOrder,
   };
 
   return (

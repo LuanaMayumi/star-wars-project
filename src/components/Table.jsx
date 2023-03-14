@@ -14,9 +14,12 @@ export default function Table() {
           alt="logo"
         />
       </div>
-      <Filters />
-      <TableBody />
-
+      <div
+        className="table"
+      >
+        <Filters />
+        <TableBody />
+      </div>
     </>
   );
 }
