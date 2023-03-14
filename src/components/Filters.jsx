@@ -158,12 +158,12 @@ export default function Filters() {
             data-testid="filter"
             key={ index }
           >
-            <button
+            {/* <button
               type="button"
               onClick={ () => onClickButtonRemove(filter.column) }
             >
               <MdOutlineDelete />
-            </button>
+            </button> */}
           </div>
         ))}
       </div>
