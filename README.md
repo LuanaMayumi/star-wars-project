@@ -1,4 +1,4 @@
-# Star Wars Planets Search:
+# Star Wars Planets Search
 
 Para esse projeto foi consumido uma API, retornando e renderizando na tela informações dos planetas do universo StarWars. Foi desenvolvido uma lista com filtros, usando Context API e Hooks para controlar os estados globais.
 
